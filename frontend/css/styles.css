@@ -97,7 +97,7 @@ p { margin: 0 0 1em; }
 }
 
 .page-home .site-header--transparent .nav-Login {
-  color: var(--accent-light) !important;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .site-header__inner {
@@ -153,16 +153,16 @@ p { margin: 0 0 1em; }
 
 .nav a:hover,
 .nav a.is-active {
-  color: var(--accent);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .nav-Login {
-  color: var(--accent) !important;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .Login-login h1,
 .Login-header h1 {
-  color: var(--accent);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* Buttons */
