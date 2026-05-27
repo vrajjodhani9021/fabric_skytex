@@ -15,4 +15,4 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:5000", "backend.app:app"]
+CMD ["sh", "-c", "python backend/migrate_admin.py && exec gunicorn -w 2 -b 0.0.0.0:5000 backend.app:app"]
