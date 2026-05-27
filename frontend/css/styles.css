@@ -290,7 +290,7 @@ p { margin: 0 0 1em; }
   background-repeat: no-repeat;
   transform: scale(1.02);
   /* allow color blend for subtle tint */
-  background-color: rgba(3, 73, 162, 0.12);
+  background-color: rgba(29, 32, 36, 0.684);
   background-blend-mode: overlay;
 }
 
