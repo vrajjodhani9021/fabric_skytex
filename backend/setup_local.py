@@ -1,5 +1,6 @@
 """One-time setup: test PostgreSQL, write .env, create tables, seed fabrics."""
 import getpass
+import os
 import secrets
 import sys
 from pathlib import Path
@@ -27,13 +28,7 @@ def main() -> int:
         print("Password is required.")
         return 1
 
-    host = prompt("Host", "localhost")
-    port = prompt("Port", "5432")
-
-    database_url = (
-        f"postgresql://{quote_plus(user)}:{quote_plus(password)}"
-        f"@{host}:{port}/{quote_plus(db_name)}"
-    )
+    database_url = os.getenv("DATABASE_URL")
 
     print("\nConnecting...")
     try:
@@ -49,7 +44,8 @@ def main() -> int:
         print("- Database name must match exactly (case-sensitive)")
         return 1
 
-    secret_key = secrets.token_hex(32)
+    # secret_key = secrets.token_hex(32)
+    secret_key = os.getenv("SECRET_KEY")
     Login_user = prompt("Website Login username", "Pratham")
     Login_pass = getpass.getpass("Website Login password (for /Login.html): ")
     if not Login_pass:

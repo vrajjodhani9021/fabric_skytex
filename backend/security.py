@@ -39,11 +39,11 @@ LOGIN_WINDOW_SEC = 900
 
 
 def get_secret_key() -> str:
-    key = os.environ.get("SECRET_KEY", "").strip()
+    key = os.environ.get("SECRET_KEY").strip()
     if key:
         return key
-    # Dev-only fallback; set SECRET_KEY in production
-    return "dev-only-change-me-set-SECRET_KEY-env-var"
+    else:
+        raise ValueError("SECRET_KEY environment variable is required and cannot be empty")
 
 
 def get_Login_username() -> str:

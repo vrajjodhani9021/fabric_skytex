@@ -146,14 +146,33 @@ p { margin: 0 0 1em; }
 }
 
 .nav a {
+  position: relative;
   font-size: 1rem;
   color: var(--text-muted);
-  transition: color 0.2s;
+  transition: color 0.2s ease;
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.2rem;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.2s ease;
+}
+
+.nav a:hover::after,
+.nav a.is-active::after {
+  transform: scaleX(1);
 }
 
 .nav a:hover,
 .nav a.is-active {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--accent-light);
 }
 
 .nav-Login {
@@ -213,20 +232,20 @@ p { margin: 0 0 1em; }
   }
 }
 
-/* Center header on the homepage: logo above centered nav */
-.page-home .site-header__inner {
+/* Center header on all pages: logo above centered nav */
+.site-header__inner {
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 1.25rem 0;
 }
-.page-home .site-header__inner .logo {
+.site-header__inner .logo {
   order: 1;
   margin-bottom: 0.25rem;
   text-align: center;
 }
-.page-home .site-header__inner .nav {
+.site-header__inner .nav {
   order: 2;
   gap: 2rem;
 }
