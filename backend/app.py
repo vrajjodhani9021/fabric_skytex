@@ -17,7 +17,6 @@ try:
         fabric_to_api,
         get_Login_by_username,
         get_connection,
-        init_db,
         save_media_with_cursor,
         uses_sqlite,
     )
@@ -40,7 +39,6 @@ except ImportError:
         fabric_to_api,
         get_Login_by_username,
         get_connection,
-        init_db,
         save_media_with_cursor,
         uses_sqlite,
     )
@@ -475,8 +473,18 @@ def delete_fabric(fabric_id):
     return jsonify({"ok": True})
 
 
+try:
+    from backend.database import init_db
+except ImportError:
+    from database import init_db
+
+# Initialize the database on import so Gunicorn workers have tables ready.
+# The database migration is protected by a Postgres advisory lock, so multiple
+# worker processes can safely start at the same time.
+init_db()
+print("Database migrated. Login user ready (see .env.example for credentials).")
+
 if __name__ == "__main__":
-    init_db()
     debug = os.environ.get("FLASK_DEBUG", "0") == "1"
     host = os.environ.get("FLASK_HOST", "0.0.0.0")
     port = int(os.environ.get("FLASK_PORT", "5000"))

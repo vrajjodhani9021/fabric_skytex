@@ -215,6 +215,9 @@ def get_connection():
 def init_db():
     conn = get_connection()
     cur = conn.cursor()
+    if not uses_sqlite():
+        execute(cur, "SELECT pg_advisory_lock(%s)", (1234567890123456789,))
+
     if uses_sqlite():
         cur.execute(
             """
@@ -317,6 +320,8 @@ def init_db():
             )
     migrate_schema(cur)
     conn.commit()
+    if not uses_sqlite():
+        execute(cur, "SELECT pg_advisory_unlock(%s)", (1234567890123456789,))
     cur.close()
     conn.close()
 
