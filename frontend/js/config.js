@@ -12,7 +12,7 @@ const SITE_CONFIG = {
     pinterest: "https://www.pinterest.com/",
   },
   mapEmbedUrl:
-    "https://maps.google.com/maps?q=Globale%20Textile%20Market,%20Surat&t=&z=15&ie=UTF8&iwloc=&output=embed",
+    "https://maps.google.com/maps?q=Globale%20Textile%20Market,%20Surat&t=m&z=15&ie=UTF8&iwloc=&output=embed",
   departments: {
     info: "info@skytexsurat.com",
     pavan: "pavan@skytexsurat.com",

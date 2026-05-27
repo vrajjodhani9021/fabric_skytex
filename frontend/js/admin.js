@@ -289,6 +289,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const auth = await checkAuth();
   if (auth.authenticated) {
     await showDashboard();
+  } else {
+    show(loginSection);
+    hide(dashboard);
   }
 
   loginForm.addEventListener("submit", async (e) => {
@@ -321,13 +324,22 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    const gsmValue = fabricForm.gsm.value.trim();
+    if (gsmValue) {
+      const gsmNumber = Number(gsmValue);
+      if (!Number.isInteger(gsmNumber) || gsmNumber < 0 || gsmNumber > 2000) {
+        formError.textContent = "GSM must be a whole number between 0 and 2000.";
+        return;
+      }
+    }
+
     const payload = {
       name: fabricForm.name.value.trim(),
       slug: fabricForm.slug.value.trim() || undefined,
       material: fabricForm.material.value,
       color: fabricForm.color.value.trim(),
       price_inr: fabricForm.price_inr.value,
-      gsm: fabricForm.gsm.value || null,
+      gsm: gsmValue ? Number(gsmValue) : null,
       image_url: images[0].url,
       description: fabricForm.description.value.trim(),
       weight: fabricForm.weight.value.trim(),
