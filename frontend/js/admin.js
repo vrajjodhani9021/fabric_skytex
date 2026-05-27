@@ -240,6 +240,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     fabricForm.description.value = fabric.description;
     fabricForm.weight.value = fabric.weight;
     fabricForm.sustainability.value = fabric.sustainability;
+    fabricForm.use_case.value = fabric.use_case || "Apparel";
     pendingMedia = (fabric.media || []).map((m, i) => ({
       media_type: m.media_type,
       url: m.url,
@@ -344,6 +345,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       description: fabricForm.description.value.trim(),
       weight: fabricForm.weight.value.trim(),
       sustainability: fabricForm.sustainability.value.trim(),
+      use_case: fabricForm.use_case.value,
       media: pendingMedia.map((m, i) => ({
         media_type: m.media_type,
         url: m.url,
