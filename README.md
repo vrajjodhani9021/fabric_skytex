@@ -30,16 +30,16 @@ python app.py
 
 - Home: http://127.0.0.1:5000/
 - Shop: http://127.0.0.1:5000/shop.html
-- Admin: http://127.0.0.1:5000/admin.html
+- Login: http://127.0.0.1:5000/Login.html
 
-## Admin panel
+## Login panel
 
 | Field    | Value        |
 |----------|--------------|
 | Username | `Pratham`    |
 | Password | `Lollipop069` |
 
-From the admin page you can:
+From the Login page you can:
 
 - Add new fabrics (name, material, color, price in ₹, image URL, etc.)
 - Edit existing fabrics
@@ -57,7 +57,7 @@ Fabric_webite/
 │   └── requirements.txt
 └── frontend/
     ├── css/styles.css
-    ├── js/              # API calls (shop, product, admin)
+    ├── js/              # API calls (shop, product, Login)
     ├── index.html
     ├── shop.html
     ├── product.html
@@ -65,7 +65,7 @@ Fabric_webite/
     ├── swatches.html
     ├── about.html
     ├── contact.html
-    └── admin.html
+    └── Login.html
 ```
 
 ## API endpoints
@@ -74,10 +74,10 @@ Fabric_webite/
 |--------|----------|-------------|
 | GET | `/api/fabrics` | List fabrics (`?material=Linen&color=&use=`) |
 | GET | `/api/fabrics/<slug>` | Single fabric |
-| POST | `/api/admin/login` | Admin login |
-| POST | `/api/fabrics` | Create fabric (admin) |
-| PUT | `/api/fabrics/<id>` | Update fabric (admin) |
-| DELETE | `/api/fabrics/<id>` | Delete fabric (admin) |
+| POST | `/api/Login/login` | Login login |
+| POST | `/api/fabrics` | Create fabric (Login) |
+| PUT | `/api/fabrics/<id>` | Update fabric (Login) |
+| DELETE | `/api/fabrics/<id>` | Delete fabric (Login) |
 
 Database: **PostgreSQL** via `DATABASE_URL` in `backend/.env` (tables and seed data created on first run).
 
@@ -88,7 +88,7 @@ This project includes protections against common attacks:
 | Protection | What it does |
 |------------|----------------|
 | **Parameterized SQL** | All queries use bound parameters — SQL injection cannot run |
-| **Password hashing** | Admin password stored as PBKDF2 hash, not plain text |
+| **Password hashing** | Login password stored as PBKDF2 hash, not plain text |
 | **Login rate limit** | 5 failed attempts per IP, then 15-minute lockout |
 | **CSRF tokens** | Add/edit/delete require a token from login |
 | **Input validation** | Whitelist materials/uses, length limits, safe URLs & slugs |
@@ -98,8 +98,8 @@ This project includes protections against common attacks:
 ### Before going live
 
 1. Copy `backend/.env.example` to `backend/.env`
-2. Set `DATABASE_URL`, a strong `SECRET_KEY`, and new `ADMIN_PASSWORD`
+2. Set `DATABASE_URL`, a strong `SECRET_KEY`, and new `Login_PASSWORD`
 3. Set `FLASK_DEBUG=0`
-4. Run `python migrate_admin.py` to ensure tables exist
+4. Run `python migrate_Login.py` to ensure tables exist
 
-**Note:** The admin *page* URL is still visible (`/admin.html`), but nobody can add or delete fabrics without logging in. Only the API enforces this — the HTML form alone cannot bypass the server.
+**Note:** The Login *page* URL is still visible (`/Login.html`), but nobody can add or delete fabrics without logging in. Only the API enforces this — the HTML form alone cannot bypass the server.

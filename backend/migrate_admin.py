@@ -12,4 +12,4 @@ except ImportError:
 
 if __name__ == "__main__":
     init_db()
-    print("Database migrated. Admin user ready (see .env.example for credentials).")
+    print("Database migrated. Login user ready (see .env.example for credentials).")

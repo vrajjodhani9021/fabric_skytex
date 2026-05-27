@@ -96,7 +96,7 @@ p { margin: 0 0 1em; }
   color: #fff;
 }
 
-.page-home .site-header--transparent .nav-admin {
+.page-home .site-header--transparent .nav-Login {
   color: var(--accent-light) !important;
 }
 
@@ -156,12 +156,12 @@ p { margin: 0 0 1em; }
   color: var(--accent);
 }
 
-.nav-admin {
+.nav-Login {
   color: var(--accent) !important;
 }
 
-.admin-login h1,
-.admin-header h1 {
+.Login-login h1,
+.Login-header h1 {
   color: var(--accent);
 }
 
@@ -807,9 +807,9 @@ p { margin: 0 0 1em; }
 
 .contact-form input,
 .contact-form textarea,
-.admin-form input,
-.admin-form select,
-.admin-form textarea,
+.Login-form input,
+.Login-form select,
+.Login-form textarea,
 .stacked-form input {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -824,24 +824,24 @@ p { margin: 0 0 1em; }
 
 .contact-form input:focus,
 .contact-form textarea:focus,
-.admin-form input:focus,
-.admin-form select:focus,
-.admin-form textarea:focus,
+.Login-form input:focus,
+.Login-form select:focus,
+.Login-form textarea:focus,
 .stacked-form input:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.15);
 }
 
-/* Stacked forms (admin login, etc.) */
+/* Stacked forms (Login login, etc.) */
 .stacked-form .form-field,
-.admin-form .form-row > div {
+.Login-form .form-row > div {
   margin-bottom: 1.25rem;
 }
 
 .stacked-form label,
-.admin-form label,
-.admin-login label {
+.Login-form label,
+.Login-login label {
   display: block;
   font-size: 0.8rem;
   font-weight: 500;
@@ -851,7 +851,7 @@ p { margin: 0 0 1em; }
   margin-bottom: 0.45rem;
 }
 
-.admin-form .form-row {
+.Login-form .form-row {
   gap: 1rem 1.25rem;
   margin-bottom: 0.25rem;
 }
@@ -937,13 +937,13 @@ p { margin: 0 0 1em; }
   border-top: 1px solid var(--border);
 }
 
-/* Admin */
-.admin-page {
+/* Login */
+.Login-page {
   min-height: 80vh;
   padding: 3rem 0;
 }
 
-.admin-login {
+.Login-login {
   max-width: 420px;
   margin: 4rem auto;
   padding: 2.75rem 2.5rem;
@@ -953,29 +953,29 @@ p { margin: 0 0 1em; }
   border: 1px solid var(--border);
 }
 
-.admin-login h1 {
+.Login-login h1 {
   text-align: center;
   font-size: 2.25rem;
   margin-bottom: 0.25rem;
 }
 
-.admin-login .stacked-form {
+.Login-login .stacked-form {
   margin-top: 1.5rem;
 }
 
-.admin-login .btn--block {
+.Login-login .btn--block {
   margin-top: 0.5rem;
   padding: 0.9rem;
 }
 
-.admin-login__subtitle {
+.Login-login__subtitle {
   text-align: center;
   color: var(--text-muted);
   margin: 0 0 0.5rem;
   font-size: 0.95rem;
 }
 
-.admin-page {
+.Login-page {
   background: linear-gradient(180deg, var(--bg) 0%, #efe9e0 100%);
   min-height: calc(100vh - 80px);
 }
@@ -986,11 +986,11 @@ p { margin: 0 0 1em; }
   margin-top: 0.5rem;
 }
 
-.admin-dashboard h1 {
+.Login-dashboard h1 {
   margin-bottom: 0.5rem;
 }
 
-.admin-form {
+.Login-form {
   background: var(--bg-card);
   padding: 2rem;
   border-radius: var(--radius);
@@ -998,42 +998,42 @@ p { margin: 0 0 1em; }
   box-shadow: var(--shadow);
 }
 
-.admin-form .form-row {
+.Login-form .form-row {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 0 1rem;
 }
 
-.admin-table-wrap {
+.Login-table-wrap {
   overflow-x: auto;
 }
 
-.admin-table {
+.Login-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
 }
 
-.admin-table th,
-.admin-table td {
+.Login-table th,
+.Login-table td {
   padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid var(--border);
 }
 
-.admin-thumb {
+.Login-thumb {
   width: 48px;
   height: 48px;
   object-fit: cover;
   border-radius: var(--radius);
 }
 
-.admin-actions {
+.Login-actions {
   display: flex;
   gap: 0.5rem;
 }
 
-.admin-header {
+.Login-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1493,7 +1493,7 @@ p { margin: 0 0 1em; }
   margin-bottom: 1rem;
 }
 
-/* Admin media upload */
+/* Login media upload */
 .media-drop-zone {
   border: 2px dashed var(--border);
   border-radius: var(--radius-lg);

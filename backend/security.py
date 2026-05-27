@@ -46,12 +46,12 @@ def get_secret_key() -> str:
     return "dev-only-change-me-set-SECRET_KEY-env-var"
 
 
-def get_admin_username() -> str:
-    return os.environ.get("ADMIN_USERNAME", "Pratham").strip()
+def get_Login_username() -> str:
+    return os.environ.get("Login_USERNAME", "Pratham").strip()
 
 
-def get_admin_password_plain() -> str:
-    return os.environ.get("ADMIN_PASSWORD", "Lollipop069")
+def get_Login_password_plain() -> str:
+    return os.environ.get("Login_PASSWORD", "Lollipop069")
 
 
 def hash_password(password: str) -> str:

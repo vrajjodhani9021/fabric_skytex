@@ -23,7 +23,7 @@ env/
 Thumbs.db
 .DS_Store
 
-# Uploaded images stored by admin UI (do not commit uploads)
+# Uploaded images stored by Login UI (do not commit uploads)
 frontend/assets/uploads/
 
 # Local debug logs

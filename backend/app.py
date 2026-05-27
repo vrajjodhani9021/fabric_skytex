@@ -15,7 +15,7 @@ try:
         ensure_unique_slug,
         execute,
         fabric_to_api,
-        get_admin_by_username,
+        get_Login_by_username,
         get_connection,
         init_db,
         save_media_with_cursor,
@@ -38,7 +38,7 @@ except ImportError:
         ensure_unique_slug,
         execute,
         fabric_to_api,
-        get_admin_by_username,
+        get_Login_by_username,
         get_connection,
         init_db,
         save_media_with_cursor,
@@ -72,7 +72,7 @@ app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax",
     SESSION_COOKIE_SECURE=os.environ.get("FLASK_ENV") == "production",
-    PERMANENT_SESSION_LIFETIME=3600,  # 1 hour admin session
+    PERMANENT_SESSION_LIFETIME=3600,  # 1 hour Login session
 )
 
 
@@ -95,10 +95,10 @@ def slugify(text: str) -> str:
     return re.sub(r"[\s-]+", "-", text).strip("-")
 
 
-def admin_required(f):
+def Login_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        if not session.get("admin"):
+        if not session.get("Login"):
             return jsonify({"error": "Unauthorized"}), 401
         if not validate_csrf(session.get("csrf_token"), request.headers.get("X-CSRF-Token")):
             return jsonify({"error": "Invalid or missing security token"}), 403
@@ -134,8 +134,8 @@ def _save_uploaded_file(upload_file, allowed_suffixes: set[str], subfolder: str 
     return request.host_url.rstrip("/") + rel
 
 
-@app.post("/api/admin/upload-image")
-@admin_required
+@app.post("/api/Login/upload-image")
+@Login_required
 def upload_image():
     if "image" not in request.files:
         return jsonify({"error": "No image file uploaded"}), 400
@@ -152,8 +152,8 @@ def upload_image():
     return jsonify({"ok": True, "image_url": image_url, "url": image_url, "media_type": "image"})
 
 
-@app.post("/api/admin/upload-media")
-@admin_required
+@app.post("/api/Login/upload-media")
+@Login_required
 def upload_media():
     upload = request.files.get("file") or request.files.get("image") or request.files.get("video")
     if not upload or upload.filename == "":
@@ -228,8 +228,8 @@ def get_fabric(slug):
     return jsonify(fabric_to_api(row))
 
 
-@app.post("/api/admin/login")
-def admin_login():
+@app.post("/api/Login/login")
+def Login_login():
     ip = client_ip(request)
     allowed, wait_sec = check_login_rate_limit(ip)
     if not allowed:
@@ -243,30 +243,30 @@ def admin_login():
         record_failed_login(ip)
         return jsonify({"error": "Invalid username or password"}), 401
 
-    admin = get_admin_by_username(username)
-    if not admin or not verify_password(password, admin["password_hash"]):
+    Login = get_Login_by_username(username)
+    if not Login or not verify_password(password, Login["password_hash"]):
         record_failed_login(ip)
         return jsonify({"error": "Invalid username or password"}), 401
 
     clear_login_attempts(ip)
     session.clear()
     session.permanent = True
-    session["admin"] = True
+    session["Login"] = True
     session["username"] = username
     session["csrf_token"] = generate_csrf_token()
 
     return jsonify({"ok": True, "username": username, "csrf_token": session["csrf_token"]})
 
 
-@app.post("/api/admin/logout")
-def admin_logout():
+@app.post("/api/Login/logout")
+def Login_logout():
     session.clear()
     return jsonify({"ok": True})
 
 
-@app.get("/api/admin/me")
-def admin_me():
-    if session.get("admin"):
+@app.get("/api/Login/me")
+def Login_me():
+    if session.get("Login"):
         return jsonify({
             "authenticated": True,
             "username": session.get("username"),
@@ -276,7 +276,7 @@ def admin_me():
 
 
 @app.post("/api/fabrics")
-@admin_required
+@Login_required
 def create_fabric():
     data = request.get_json(silent=True) or {}
     try:
@@ -352,7 +352,7 @@ def create_fabric():
 
 
 @app.put("/api/fabrics/<int:fabric_id>")
-@admin_required
+@Login_required
 def update_fabric(fabric_id):
     if fabric_id < 1 or fabric_id > 2_147_483_647:
         return jsonify({"error": "Invalid request"}), 400
@@ -455,7 +455,7 @@ def update_fabric(fabric_id):
 
 
 @app.delete("/api/fabrics/<int:fabric_id>")
-@admin_required
+@Login_required
 def delete_fabric(fabric_id):
     if fabric_id < 1:
         return jsonify({"error": "Invalid request"}), 400

@@ -1,4 +1,4 @@
-const ADMIN_OPTS = { credentials: "include" };
+const Login_OPTS = { credentials: "include" };
 
 let csrfToken = null;
 let pendingMedia = [];
@@ -9,7 +9,7 @@ function escapeHtml(text) {
   return el.innerHTML;
 }
 
-function adminHeaders() {
+function LoginHeaders() {
   const headers = { "Content-Type": "application/json" };
   if (csrfToken) {
     headers["X-CSRF-Token"] = csrfToken;
@@ -18,7 +18,7 @@ function adminHeaders() {
 }
 
 async function checkAuth() {
-  const res = await fetch("/api/admin/me", ADMIN_OPTS);
+  const res = await fetch("/api/Login/me", Login_OPTS);
   const data = await res.json();
   if (data.csrf_token) {
     csrfToken = data.csrf_token;
@@ -27,7 +27,7 @@ async function checkAuth() {
 }
 
 async function login(username, password) {
-  const res = await fetch("/api/admin/login", {
+  const res = await fetch("/api/Login/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -42,23 +42,23 @@ async function login(username, password) {
 }
 
 async function logout() {
-  await fetch("/api/admin/logout", {
+  await fetch("/api/Login/logout", {
     method: "POST",
-    headers: adminHeaders(),
+    headers: LoginHeaders(),
     credentials: "include",
   });
   csrfToken = null;
 }
 
-async function adminFetchFabrics() {
-  const res = await fetch("/api/fabrics", ADMIN_OPTS);
+async function LoginFetchFabrics() {
+  const res = await fetch("/api/fabrics", Login_OPTS);
   return res.json();
 }
 
 async function createFabric(payload) {
   const res = await fetch("/api/fabrics", {
     method: "POST",
-    headers: adminHeaders(),
+    headers: LoginHeaders(),
     credentials: "include",
     body: JSON.stringify(payload),
   });
@@ -70,7 +70,7 @@ async function createFabric(payload) {
 async function updateFabric(id, payload) {
   const res = await fetch("/api/fabrics/" + id, {
     method: "PUT",
-    headers: adminHeaders(),
+    headers: LoginHeaders(),
     credentials: "include",
     body: JSON.stringify(payload),
   });
@@ -82,7 +82,7 @@ async function updateFabric(id, payload) {
 async function deleteFabric(id) {
   const res = await fetch("/api/fabrics/" + id, {
     method: "DELETE",
-    headers: adminHeaders(),
+    headers: LoginHeaders(),
     credentials: "include",
   });
   if (!res.ok) {
@@ -94,7 +94,7 @@ async function deleteFabric(id) {
 async function uploadMediaFile(file) {
   const formData = new FormData();
   formData.append("file", file);
-  const res = await fetch("/api/admin/upload-media", {
+  const res = await fetch("/api/Login/upload-media", {
     method: "POST",
     headers: csrfToken ? { "X-CSRF-Token": csrfToken } : {},
     credentials: "include",
@@ -168,7 +168,7 @@ async function handleFiles(files) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const loginSection = document.getElementById("login-section");
-  const dashboard = document.getElementById("admin-dashboard");
+  const dashboard = document.getElementById("Login-dashboard");
   const loginForm = document.getElementById("login-form");
   const loginError = document.getElementById("login-error");
   const logoutBtn = document.getElementById("logout-btn");
@@ -185,17 +185,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   let editingId = null;
 
   async function loadDashboard() {
-    const fabrics = await adminFetchFabrics();
+    const fabrics = await LoginFetchFabrics();
     fabricTable.innerHTML = fabrics
       .map(
         (f) => `
       <tr>
-        <td><img src="${escapeHtml(f.image_url)}" alt="" class="admin-thumb" /></td>
+        <td><img src="${escapeHtml(f.image_url)}" alt="" class="Login-thumb" /></td>
         <td>${escapeHtml(f.name)}</td>
         <td>${escapeHtml(f.material)}</td>
         <td>${f.gsm ? escapeHtml(String(f.gsm)) + " GSM" : "—"}</td>
         <td>${escapeHtml(formatPrice(f.price_inr))}</td>
-        <td class="admin-actions">
+        <td class="Login-actions">
           <button type="button" class="btn btn--ghost btn--sm" data-edit="${f.id}">Edit</button>
           <button type="button" class="btn btn--danger btn--sm" data-delete="${f.id}">Delete</button>
         </td>

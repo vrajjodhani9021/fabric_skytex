@@ -6,9 +6,9 @@ import psycopg
 from psycopg.rows import dict_row
 
 try:
-    from backend.security import get_admin_password_plain, get_admin_username, hash_password
+    from backend.security import get_Login_password_plain, get_Login_username, hash_password
 except ImportError:
-    from security import get_admin_password_plain, get_admin_username, hash_password
+    from security import get_Login_password_plain, get_Login_username, hash_password
 
 DB_DIR = Path(__file__).parent
 SQLITE_PATH = DB_DIR / "fabrics.db"
@@ -218,7 +218,7 @@ def init_db():
     if uses_sqlite():
         cur.execute(
             """
-            CREATE TABLE IF NOT EXISTS admin_users (
+            CREATE TABLE IF NOT EXISTS Login_users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT UNIQUE NOT NULL,
                 password_hash TEXT NOT NULL
@@ -246,7 +246,7 @@ def init_db():
     else:
         cur.execute(
             """
-            CREATE TABLE IF NOT EXISTS admin_users (
+            CREATE TABLE IF NOT EXISTS Login_users (
                 id SERIAL PRIMARY KEY,
                 username TEXT UNIQUE NOT NULL,
                 password_hash TEXT NOT NULL
@@ -272,20 +272,20 @@ def init_db():
             """
         )
 
-    username = get_admin_username()
-    password_hash = hash_password(get_admin_password_plain())
-    execute(cur, "SELECT id FROM admin_users WHERE username = %s", (username,))
-    existing_admin = cur.fetchone()
-    if existing_admin:
+    username = get_Login_username()
+    password_hash = hash_password(get_Login_password_plain())
+    execute(cur, "SELECT id FROM Login_users WHERE username = %s", (username,))
+    existing_Login = cur.fetchone()
+    if existing_Login:
         execute(
             cur,
-            "UPDATE admin_users SET password_hash = %s WHERE id = %s",
-            (password_hash, existing_admin["id"]),
+            "UPDATE Login_users SET password_hash = %s WHERE id = %s",
+            (password_hash, existing_Login["id"]),
         )
     else:
         execute(
             cur,
-            "INSERT INTO admin_users (username, password_hash) VALUES (%s, %s)",
+            "INSERT INTO Login_users (username, password_hash) VALUES (%s, %s)",
             (username, password_hash),
         )
 
@@ -476,12 +476,12 @@ def fabric_to_api(row) -> dict:
     return data
 
 
-def get_admin_by_username(username: str):
+def get_Login_by_username(username: str):
     conn = get_connection()
     cur = conn.cursor()
     execute(
         cur,
-        "SELECT id, username, password_hash FROM admin_users WHERE username = %s",
+        "SELECT id, username, password_hash FROM Login_users WHERE username = %s",
         (username,),
     )
     row = cur.fetchone()
